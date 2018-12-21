@@ -149,33 +149,36 @@ exports.set_crontab = function(env_vars, callback){
 exports.get_backup_names = function(){
 	var backups = [];
 	fs.readdirSync(__dirname + '/crontabs').forEach(function(file){
-		// file name begins with backup
-		if(file.indexOf("backup") === 0){
-			backups.push(file);
+		// file name begins with 'backup ' and ends with '.db'
+		if(file.indexOf("backup ") === 0 && file.endsWith(".db")){
+			backups.unshift(file.substring(7, file.length-3));
 		}
 	});
 
 	// Sort by date. Newest on top
-	for(var i=0; i<backups.length; i++){
-		var Ti = backups[i].split("backup")[1];
-		Ti = new Date(Ti.substring(0, Ti.length-3)).valueOf();
-		for(var j=0; j<i; j++){
-			var Tj = backups[j].split("backup")[1];
-			Tj = new Date(Tj.substring(0, Tj.length-3)).valueOf();
-			if(Ti > Tj){
-				var temp = backups[i];
-				backups[i] = backups[j];
-				backups[j] = temp;
-			}
-		}
-	}
+	//for(var i=0; i<backups.length; i++){
+	//	var Ti = backups[i].split("backup")[1];
+	//	Ti = new Date(Ti.substring(0, Ti.length-3)).valueOf();
+	//	for(var j=0; j<i; j++){
+	//		var Tj = backups[j].split("backup")[1];
+	//		Tj = new Date(Tj.substring(0, Tj.length-3)).valueOf();
+	//		if(Ti > Tj){
+	//			var temp = backups[i];
+	//			backups[i] = backups[j];
+	//			backups[j] = temp;
+	//		}
+	//	}
+	//}
 
 	return backups;
 };
 
 exports.backup = function(){
 	//TODO check if it failed
-	fs.createReadStream( __dirname + '/crontabs/crontab.db').pipe(fs.createWriteStream( __dirname + '/crontabs/backup ' + (new Date()).toString().replace("+", " ") + '.db'));
+	var d = new Date();
+	var dateformat = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+	var filename = 'backup ' + dateformat + '.db';
+	fs.createReadStream( __dirname + '/crontabs/crontab.db').pipe(fs.createWriteStream( __dirname + '/crontabs/' + filename));
 };
 
 exports.restore = function(db_name){
