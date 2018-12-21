@@ -13,3 +13,4 @@ My Changes:
     - The UI removes the 'backup' and '.db' parts to just show '2018-05-16 09:50:02' etc.
     - It still shows the newest on top, but it doesn't have to sort them.
     
+- Changed GitHub link in UI to be this fork.
