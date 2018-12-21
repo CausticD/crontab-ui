@@ -46,8 +46,9 @@ app.get(routes.root, function(req, res) {
 			routes : JSON.stringify(routes),
 			crontabs : JSON.stringify(docs),
 			backups : crontab.get_backup_names(),
+			params : process.argv,
 			env : crontab.get_env(),
-      moment: moment
+			moment: moment
 		});
 	});
 });
@@ -115,6 +116,7 @@ app.get(routes.restore, function(req, res) {
 			routes : JSON.stringify(routes),
 			crontabs : JSON.stringify(docs),
 			backups : crontab.get_backup_names(),
+			params : process.argv,
 			db: req.query.db
 		});
 	});
@@ -160,7 +162,7 @@ app.post(routes.import, function(req, res) {
 	});
 });
 
-// import from current ACTUALL crontab
+// import from current ACTUAL crontab
 app.get(routes.import_crontab, function(req, res) {
 	crontab.import_crontab();
 	res.end();
@@ -215,6 +217,7 @@ app.listen(app.get('port'), app.get('host'), function() {
   // we do this by watching log file and setting a on change hook to it
   if (process.argv.includes("--autosave")){
     crontab.autosave_crontab(()=>{});
+    console.log("Adding file watch to /crontabs/crontab.db");
     fs.watchFile(__dirname + '/crontabs/crontab.db', () => {
       crontab.autosave_crontab(()=>{
         console.log("Attempted to autosave crontab");
