@@ -18,17 +18,17 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Backups <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
 	    <% if (backups.length == 0){ %>
-            	<li><a href="#">None</a></li>
+              <li><a href="#">None</a></li>
 	    <% } else { %>
-	    	<% backups.forEach(function(file){ %>
-            		<li><a href="<%= JSON.parse(routes).restore %>?db=<%= file %>"><%= file %></a></li>
-	    	<% }) %>
+              <% backups.forEach(function(file){ %>
+                <li><a href="<%= JSON.parse(routes).restore %>?db=<%= file %>"><%= file %></a></li>
+	      <% }) %>
 	    <% } %>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="https://github.com/alseambusher/crontab-ui">Fork me on Github</a></li>
+        <li><a href="https://github.com/CausticD/crontab-ui">Fork me on Github</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
