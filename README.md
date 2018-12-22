@@ -14,3 +14,7 @@ My Changes:
     - It still shows the newest on top, but it doesn't have to sort them.
     
 - Changed GitHub link in UI to be this fork.
+
+Troubleshooting:
+
+- The first issue I had was that the UI seemed fine until I tried saving and then it gave me a error. This was caused by crontab not being installed! Run 'crontab -l' (this is the command that the UI uses internally). If this gives an error, tackle that first. If it spits out nothing, that is okay as it might just mean you don't have any cron jobs.
