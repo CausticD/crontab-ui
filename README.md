@@ -3,6 +3,10 @@ Crontab UI
 
 Forked from: https://github.com/alseambusher/crontab-ui
 
+Disclaimer:
+
+I am no JavaScript / NodeJS developer. I had a need for something like this and thought I would see if I could fix some issues with alseambusher's original. Just playing around, making changes that suit me and learning whilst at it!
+
 My Changes:
 
 - When autosave is enabled, don't show the Save and Load buttons in the UI. When this mode is on, it seems a little pointless and rather confusing to show them.
