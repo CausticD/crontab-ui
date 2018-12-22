@@ -1,4 +1,8 @@
 /*jshint esversion: 6*/
+const basedir = '/crontabs/';
+const backup_prefix = 'backup ';
+const backup_extension = '.db';
+
 var express = require('express');
 var app = express();
 var crontab = require("./crontab");
@@ -35,6 +39,9 @@ app.set('host', (process.env.HOST || '127.0.0.1'));
 
 // set port to 8000 or the value set by environment var PORT
 app.set('port', (process.env.PORT || 8000));
+
+// call the init functions of our own modules
+restore.init(basedir, backup_prefix, backup_extension);
 
 // root page handler
 app.get(routes.root, function(req, res) {
