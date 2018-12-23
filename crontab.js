@@ -119,7 +119,7 @@ exports.set_crontab = function(env_vars, callback){
 				//}
 
 				if (tab.logging && tab.logging == "true") {
-					crontab_string += tab.schedule + " ./cronhelper.sh " + tab.command + " | adddate &>> " + log_file;
+					crontab_string += tab.schedule + " /usr/lib/node_modules/crontab-ui/cronhelper.sh " + tab.command + " >> " + log_file + "2>&1";
 				} else {
 					crontab_string += tab.schedule + " " + tab.command;
 				}
