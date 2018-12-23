@@ -132,7 +132,7 @@ exports.set_crontab = function(env_vars, callback){
 			}
 		});
 
-		fs.writeFile(exports.env_file, env_vars, function(err) {
+		fs.writeFile(env_file, env_vars, function(err) {
 			if (err) callback(err);
 			// In docker we're running as the root user, so we need to write the file as root and not crontab
 			var fileName = "crontab"
@@ -201,8 +201,8 @@ exports.reload_db = function(){
 };
 
 exports.get_env = function(){
-	if (fs.existsSync(exports.env_file)) {
-		return fs.readFileSync(exports.env_file , 'utf8').replace("\n", "\n");
+	if (fs.existsSync(env_file)) {
+		return fs.readFileSync(env_file , 'utf8').replace("\n", "\n");
 	}
 	return "";
 };
