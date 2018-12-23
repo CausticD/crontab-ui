@@ -96,31 +96,37 @@ exports.set_crontab = function(env_vars, callback){
 		}
 		tabs.forEach(function(tab){
 			if(!tab.stopped) {
-				let stderr = path.join(cronPath, tab._id + ".stderr");
-				let stdout = path.join(cronPath, tab._id + ".stdout");
+				//let stderr = path.join(cronPath, tab._id + ".stderr");
+				//let stdout = path.join(cronPath, tab._id + ".stdout");
 				let log_file = path.join(exports.log_folder, tab._id + ".log");
 
-				if(tab.command[tab.command.length-1] != ";") // add semicolon
-					tab.command +=";";
+				//if(tab.command[tab.command.length-1] != ";") // add semicolon
+				//	tab.command +=";";
 
-				crontab_string += tab.schedule + " ({ " + tab.command + " } | tee " + stdout + ") 3>&1 1>&2 2>&3 | tee " + stderr;
+				//crontab_string += tab.schedule + " ({ " + tab.command + " } | tee " + stdout + ") 3>&1 1>&2 2>&3 | tee " + stderr;
+
+				//if (tab.logging && tab.logging == "true") {
+				//	crontab_string += "; if test -f " + stderr +
+				//	"; then date >> " + log_file +
+				//	"; cat " + stderr + " >> " + log_file +
+				//	"; fi";
+				//}
+
+				//if (tab.hook) {
+				//	crontab_string += "; if test -f " + stdout +
+				//	"; then " + tab.hook + " < " + stdout +
+				//	"; fi";
+				//}
 
 				if (tab.logging && tab.logging == "true") {
-					crontab_string += "; if test -f " + stderr +
-					"; then date >> " + log_file +
-					"; cat " + stderr + " >> " + log_file +
-					"; fi";
+					crontab_string += tab.schedule + " ./cronhelper.sh " + tab.command + " | adddate &>> " + log_file;
+				} else {
+					crontab_string += tab.schedule + " " + tab.command;
 				}
 
-				if (tab.hook) {
-					crontab_string += "; if test -f " + stdout +
-					"; then " + tab.hook + " < " + stdout +
-					"; fi";
-				}
-
-				if (tab.mailing && JSON.stringify(tab.mailing) != "{}"){
-					crontab_string += "; /usr/local/bin/node " + __dirname + "/bin/crontab-ui-mailer.js " + tab._id + " " + stdout + " " + stderr;
-				}
+				//if (tab.mailing && JSON.stringify(tab.mailing) != "{}"){
+				//	crontab_string += "; /usr/local/bin/node " + __dirname + "/bin/crontab-ui-mailer.js " + tab._id + " " + stdout + " " + stderr;
+				//}
 
 				crontab_string += "\n";
 			}
