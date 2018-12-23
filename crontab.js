@@ -2,7 +2,12 @@
 //load database
 var Datastore = require('nedb');
 var path = require("path");
-var db = new Datastore({ filename: __dirname + '/crontabs/crontab.db' });
+
+var base_path = __dirname + '/crontabs/';
+var db_file = base_path + 'crontab.db';
+var env_file = base_path + 'env.db';
+
+var db = new Datastore({ filename: db_file });
 var cronPath = "/tmp";
 
 if(process.env.CRON_PATH !== undefined) {
@@ -18,8 +23,7 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var cron_parser = require("cron-parser");
 
-exports.log_folder = __dirname + '/crontabs/logs';
-exports.env_file = __dirname + '/crontabs/env.db';
+exports.log_folder = base_path + 'logs';
 
 crontab = function(name, command, schedule, stopped, logging, mailing){
 	var data = {};
@@ -148,7 +152,7 @@ exports.set_crontab = function(env_vars, callback){
 
 exports.get_backup_names = function(){
 	var backups = [];
-	fs.readdirSync(__dirname + '/crontabs').forEach(function(file){
+	fs.readdirSync(base_path).forEach(function(file){
 		// file name begins with 'backup ' and ends with '.db'
 		if(file.indexOf("backup ") === 0 && file.endsWith(".db")){
 			backups.unshift(file.substring(7, file.length-3));
@@ -178,11 +182,11 @@ exports.backup = function(){
 	var d = new Date();
 	var dateformat = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
 	var filename = 'backup ' + dateformat + '.db';
-	fs.createReadStream( __dirname + '/crontabs/crontab.db').pipe(fs.createWriteStream( __dirname + '/crontabs/' + filename));
+	fs.createReadStream(db_file).pipe(fs.createWriteStream(base_path + filename));
 };
 
 exports.restore = function(db_name){
-	fs.createReadStream( __dirname + '/crontabs/' + db_name).pipe(fs.createWriteStream( __dirname + '/crontabs/crontab.db'));
+	fs.createReadStream(base_path + db_name).pipe(fs.createWriteStream(db_file));
 	db.loadDatabase(); // reload the database
 };
 
