@@ -41,17 +41,17 @@
 	<br/>
 
 	<table class="table table-striped" id="main_table">
-		<thead>
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Job</th>
-		<th>Time</th>
-		<th>Last Modified</th>
-		<th></th>
-	</tr>
-</thead>
-<tbody>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Job</th>
+			<th>Time</th>
+			<th>Last Modified</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
 	<% var index = 1 %>
 	<% JSON.parse(crontabs).forEach(function(crontab){ %>
 		<!-- color based on crontab state -->
@@ -90,36 +90,36 @@
 		<% } else { %>
 					<a class="btn btn-info" onclick="startJob('<%= crontab._id %>')"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start</a>
 		<% } %>
-					<a class="btn btn-danger" onclick="deleteJob('<%= crontab._id %>')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+					<a class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Delete Job" onclick="deleteJob('<%= crontab._id %>')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 				</td>
 			</tr>
 	<% }); %>
 
 
-</tbody>
+	</tbody>
 	</table>
 </div>
 <% include popup.ejs %>
 <script>
-   jQuery(function($) {
-   	$('#main_table').DataTable({
-   		order: [1, 'asc'],
-   		columns: [
-   			{orderable: false},
-   			null,
-   			null,
-   			null,
-   			{orderable: false},
-   			{orderable: false}
-   		]
-  	});
-   });
+	jQuery(function($) {
+		$('#main_table').DataTable({
+			order: [1, 'asc'],
+			columns: [
+				{orderable: false},
+				null,
+				null,
+				null,
+				{orderable: false},
+				{orderable: false}
+			]
+		});
+	});
 	var myparams = '<%- params %>';
 
 	if(myparams.includes('autosave')) {
 		 $( "#button_save_crontab" ).hide();
 		 $( "#button_load_crontab" ).hide();
 	}
- </script>
+</script>
 </body>
 </html>
