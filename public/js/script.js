@@ -33,7 +33,7 @@ var job_command = "";
 function deleteLog(_id){
 	// TODO fix this. pass callback properly
 	messageBox("<p> Do you want to delete this Log? </p>", "Confirm delete", null, null, function(){
-		$.post(routes.remove, {_id: _id}, function(){
+		$.post(routes.delete_log, {_id: _id}, function(){
 			location.reload();
 		});
 	});
