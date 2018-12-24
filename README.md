@@ -17,8 +17,18 @@ My Changes:
     - The UI removes the 'backup' and '.db' parts to just show '2018-05-16 09:50:02' etc.
     - It still shows the newest on top, but it doesn't have to sort them.
     
+- All output from a job goes to one log file and is appended! Each line of that file starts with a timestamp.
+
+- Added button to delete log file of a job. Handy since they can get huge now they capture all output.
+
 - Changed GitHub link in UI to be this fork.
+
+My Breaking Changes:
+
+- I have broken/removed the ability to email logs! I don't have a way of testing this, so I have commented it out.
 
 Troubleshooting:
 
 - The first issue I had was that the UI seemed fine until I tried saving and then it gave me a error. This was caused by crontab not being installed! Run 'crontab -l' (this is the command that the UI uses internally). If this gives an error, tackle that first. If it spits out nothing, that is okay as it might just mean you don't have any cron jobs.
+
+- There are plenty of reasons a job can work manually, but not as part of cron. Try setting 'SHELL=/bin/bash' to see if this fixes it. Test things with a very simple job, such as just 'pwd' with logging on and this should prove that cron is running etc.
