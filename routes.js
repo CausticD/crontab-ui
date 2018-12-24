@@ -10,6 +10,7 @@ exports.routes = {
 	"restore": "/restore",
 	"delete_backup": "/delete",
 	"restore_backup": "/restore_backup",
+	"delete_log": "/delete_log",
 	"export": "/export",
 	"import": "/import", // this is import from database
 	"import_crontab": "/import_crontab", // this is from existing crontab

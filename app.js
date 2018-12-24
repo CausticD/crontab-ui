@@ -102,6 +102,12 @@ app.post(routes.run, function(req, res) {
 	res.end();
 });
 
+// remove a log
+app.post(routes.delete_log, function(req, res) {
+	crontab.delete_log(req.body._id);
+	res.end();
+});
+
 // set crontab. Needs env_vars to be passed
 app.get(routes.crontab, function(req, res, next) {
 	crontab.set_crontab(req.query.env_vars, function(err) {
@@ -182,7 +188,7 @@ app.get(routes.logger, function(req, res) {
 	if (fs.existsSync(_file))
 		res.sendFile(_file);
 	else
-		res.end("No errors logged yet");
+		res.end("No log found");
 });
 
 // error handler

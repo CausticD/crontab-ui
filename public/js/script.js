@@ -30,6 +30,15 @@ function messageBox(body, title, ok_text, close_text, callback){
 var schedule = "";
 var job_command = "";
 
+function deleteLog(_id){
+	// TODO fix this. pass callback properly
+	messageBox("<p> Do you want to delete this Log? </p>", "Confirm delete", null, null, function(){
+		$.post(routes.remove, {_id: _id}, function(){
+			location.reload();
+		});
+	});
+}
+
 function deleteJob(_id){
 	// TODO fix this. pass callback properly
 	messageBox("<p> Do you want to delete this Job? </p>", "Confirm delete", null, null, function(){
