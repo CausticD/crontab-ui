@@ -69,7 +69,7 @@ exports.remove = function(_id){
 
 exports.delete_log = function(_id){
 	_file = crontab.log_folder +"/"+_id+".log";
-	if (fs.existsSync(_file)) {}
+	if (fs.existsSync(_file)) {
 		fs.unlink(_file, function (err) {
 			if (err) throw err;
 			console.log(_file + ' deleted!');
