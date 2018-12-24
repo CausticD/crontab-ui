@@ -7,8 +7,8 @@ var base_path = __dirname + '/crontabs/';
 var db_file = base_path + 'crontab.db';
 var env_file = base_path + 'env.db';
 
-//var backup_prefix = 'backup '
-//var backup_extension = '.db'
+var m_prefix = ''
+var m_extension = ''
 
 var db = new Datastore({ filename: db_file });
 var cronPath = "/tmp";
@@ -42,6 +42,11 @@ crontab = function(name, command, schedule, stopped, logging, mailing){
 		mailing = {};
 	data.mailing = mailing;
 	return data;
+};
+
+exports.init = function(prefix, extension){
+	m_prefix = prefix;
+	m_extension = extension;
 };
 
 exports.create_new = function(name, command, schedule, logging, mailing){
@@ -163,8 +168,8 @@ exports.get_backup_names = function(){
 	var backups = [];
 	fs.readdirSync(base_path).forEach(function(file){
 		// file name begins with 'backup ' and ends with '.db'
-		if(file.indexOf(backup_prefix) === 0 && file.endsWith(backup_extension)){
-			backups.unshift(file.substring(backup_prefix.length, file.length-backup_extension.length));
+		if(file.indexOf(m_prefix) === 0 && file.endsWith(m_extension)){
+			backups.unshift(file.substring(m_prefix.length, file.length-m_extension.length));
 		}
 	});
 
@@ -190,7 +195,7 @@ exports.backup = function(){
 	//TODO check if it failed
 	var d = new Date();
 	var dateformat = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
-	var filename = backup_prefix + dateformat + backup_extension;
+	var filename = m_prefix + dateformat + backup_extension;
 	fs.createReadStream(db_file).pipe(fs.createWriteStream(base_path + filename));
 };
 

@@ -41,6 +41,7 @@ app.set('host', (process.env.HOST || '127.0.0.1'));
 app.set('port', (process.env.PORT || 8000));
 
 // call the init functions of our own modules
+crontab.init(backup_prefix, backup_extension);
 restore.init(basedir, backup_prefix, backup_extension);
 
 // root page handler
