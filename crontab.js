@@ -28,7 +28,7 @@ var cron_parser = require("cron-parser");
 
 exports.log_folder = base_path + 'logs';
 
-crontab = function(name, command, schedule, stopped, logging, mailing){
+crontab = function(name, command, schedule, stopped, logging_stdout, logging_stderr, mailing){
 	var data = {};
 	data.name = name;
 	data.command = command;
@@ -37,7 +37,8 @@ crontab = function(name, command, schedule, stopped, logging, mailing){
 		data.stopped = stopped;
 	}
 	data.timestamp = (new Date()).toString();
-	data.logging = logging;
+	data.logging_stdout = logging_stdout;
+	data.logging_stderr = logging_stderr;
 	if (!mailing)
 		mailing = {};
 	data.mailing = mailing;
@@ -49,14 +50,14 @@ exports.init = function(prefix, extension){
 	m_extension = extension;
 };
 
-exports.create_new = function(name, command, schedule, logging, mailing){
-	var tab = crontab(name, command, schedule, false, logging, mailing);
+exports.create_new = function(name, command, schedule, logging_stdout, logging_stderr, mailing){
+	var tab = crontab(name, command, schedule, false, logging_stdout, logging_stderr, mailing);
 	tab.created = new Date().valueOf();
 	db.insert(tab);
 };
 
 exports.update = function(data){
-	db.update({_id: data._id}, crontab(data.name, data.command, data.schedule, null, data.logging, data.mailing));
+	db.update({_id: data._id}, crontab(data.name, data.command, data.schedule, null, data.logging_stdout, data.logging_stderr, data.mailing));
 };
 
 exports.status = function(_id, stopped){
@@ -137,7 +138,9 @@ exports.set_crontab = function(env_vars, callback){
 				//	"; fi";
 				//}
 
-				if (tab.logging && tab.logging == "true") {
+				console.log(tab.logging_stdout + '-' + tab.logging_stderr);
+
+				if (tab.logging_stdout && tab.logging_stderr && tab.logging_stdout == "true" && tab.logging_stderr == "true") {
 					crontab_string += tab.schedule + " " + __dirname + "/cronhelper.sh " + tab.command + " >> " + log_file;
 				} else {
 					crontab_string += tab.schedule + " " + tab.command;

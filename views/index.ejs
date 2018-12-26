@@ -80,7 +80,7 @@
 
 		<!-- controls based on crontab state -->
 		<% if (!crontab.stopped) { %>
-			<% if (crontab.logging && crontab.logging != "false") {%>
+			<% if ((crontab.logging_stdout && crontab.logging_stdout != "false") || (crontab.logging_stderr && crontab.logging_stderr != "false")) {%>
 					<a class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="See Log" href="<%= JSON.parse(routes).logger + '?id=' + crontab._id %>" target="_blank"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
 					<a class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Delete Log" onclick="deleteLog('<%= crontab._id %>')"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
 			<% } %>

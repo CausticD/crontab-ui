@@ -118,8 +118,10 @@ function editJob(_id){
 		}
 		schedule = job.schedule;
 		job_command = job.command;
-		if (job.logging && job.logging != "false")
-			$("#job-logging").prop("checked", true);
+		if (job.logging_stdout && job.logging_stdout != "false")
+			$("#job-logging-stdout").prop("checked", true);
+		if (job.logging_stderr && job.logging_stderr != "false")
+			$("#job-logging-stderr").prop("checked", true);
 		job_string();
 	}
 
@@ -131,8 +133,9 @@ function editJob(_id){
 		}
 		let name = $("#job-name").val();
 		let mailing = JSON.parse($("#job-mailing").attr("data-json"));
-		let logging = $("#job-logging").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging: logging, mailing: mailing}, function(){
+		let logging_stdout = $("#job-logging-stdout").prop("checked");
+		let logging_stderr = $("#job-logging-stderr").prop("checked");
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: mailing}, function(){
 			location.reload();
 		});
 	});
@@ -160,8 +163,9 @@ function newJob(){
 		}
 		let name = $("#job-name").val();
 		let mailing = JSON.parse($("#job-mailing").attr("data-json"));
-		let logging = $("#job-logging").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging: logging, mailing: mailing}, function(){
+		let logging_stdout = $("#job-logging-stdout").prop("checked");
+		let logging_stderr = $("#job-logging-stderr").prop("checked");
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: mailing}, function(){
 			location.reload();
 		});
 	});
