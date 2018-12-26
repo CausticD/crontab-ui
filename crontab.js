@@ -140,10 +140,16 @@ exports.set_crontab = function(env_vars, callback){
 
 				console.log(tab.logging_stdout + '-' + tab.logging_stderr);
 
+				crontab_string += tab.schedule + " ";
+
 				if (tab.logging_stdout && tab.logging_stderr && tab.logging_stdout == "true" && tab.logging_stderr == "true") {
-					crontab_string += tab.schedule + " " + __dirname + "/cronhelper.sh " + tab.command + " >> " + log_file;
+					crontab_string += __dirname + "/cronhelper_both.sh " + tab.command + " >> " + log_file;
+				} else if(tab.logging_stdout && tab.logging_stdout == "true") {
+					crontab_string += __dirname + "/cronhelper_stdout.sh " + tab.command + " >> " + log_file;
+				} else if(tab.logging_stderr && tab.logging_stderr == "true") {
+					crontab_string += __dirname + "/cronhelper_stderr.sh " + tab.command + " >> " + log_file;
 				} else {
-					crontab_string += tab.schedule + " " + tab.command;
+					crontab_string += tab.command;
 				}
 
 				//if (tab.mailing && JSON.stringify(tab.mailing) != "{}"){
@@ -209,7 +215,7 @@ exports.backup = function(){
 	//TODO check if it failed
 	var d = new Date();
 	var dateformat = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
-	var filename = m_prefix + dateformat + backup_extension;
+	var filename = m_prefix + dateformat + m_extension;
 	fs.createReadStream(db_file).pipe(fs.createWriteStream(base_path + filename));
 };
 
