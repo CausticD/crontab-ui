@@ -17,9 +17,9 @@ My Changes:
     - The UI removes the 'backup' and '.db' parts to just show '2018-05-16 09:50:02' etc.
     - It still shows the newest on top, but it doesn't have to sort them.
     
-- All output from a job goes to one log file and is appended! Each line of that file starts with a timestamp.
+- You can now choose what output from the command gets logged, either none, stdout, stderr or both. This goes to one log file and is appended. Each line of that file starts with a timestamp.
 
-- Added button to delete log file of a job. Handy since they can get huge now they capture all output.
+- Added button to delete log file of a job. Handy since they can get huge now they can capture all output.
 
 - Changed GitHub link in UI to be this fork.
 
