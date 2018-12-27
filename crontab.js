@@ -138,8 +138,6 @@ exports.set_crontab = function(env_vars, callback){
 				//	"; fi";
 				//}
 
-				console.log(tab.logging_stdout + '-' + tab.logging_stderr);
-
 				crontab_string += tab.schedule + " ";
 
 				if (tab.logging_stdout && tab.logging_stderr && tab.logging_stdout == "true" && tab.logging_stderr == "true") {

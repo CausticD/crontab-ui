@@ -234,7 +234,7 @@ app.listen(app.get('port'), app.get('host'), function() {
     console.log("Adding file watch to /crontabs/crontab.db");
     fs.watchFile(__dirname + '/crontabs/crontab.db', () => {
       crontab.autosave_crontab(()=>{
-        console.log("Attempted to autosave crontab");
+        //console.log("Attempted to autosave crontab");
       });
     });
   }
