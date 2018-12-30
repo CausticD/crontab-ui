@@ -39,10 +39,17 @@
 	<br />
 	<label>Job</label>
 	<input type='text' class='form-control' id='job-string' disabled='disabled'/><br />
+	
 	<label>Log Output</label><br />
-	<input type="checkbox" id="job-logging-stdout" style="position:relative;top:2px"/>StdOut <input type="checkbox" id="job-logging-stderr" style="position:relative;top:2px"/>StdErr<br />
-	<a class="btn btn-primary btn-small" data-json="{}" onclick="setMailConfig(this);" id="job-mailing">Mailing</a>
-	<!--<a class="btn btn-primary btn-small" data-json="{}" onclick="setHookConfig(this);">Hooks</a>-->
+	<input type="checkbox" id="job-logging-stdout" style="position:relative;top:2px"/>StdOut <input type="checkbox" id="job-logging-stderr" style="position:relative;top:2px"/>StdErr<br /><br />
+	
+	<label>Log Rotation</label><br />
+	<input type="checkbox" id="job-logging-rotate" style="position:relative;top:2px"/>Rotate <input type="checkbox" id="job-logging-rotate-compress" style="position:relative;top:2px"/>Compress <br />
+	<input type="number" id="job-logging-rotate-count" style="position:relative;top:2px" min="1" max="100" value="5"/> Count<br/>
+	<input type="radio" name="RotateFeq" value="daily" checked> Daily <input type="radio" name="RotateFeq" value="weekly" checked> Weekly <input type="radio" name="RotateFeq" value="monthly" checked> Monthly <input type="radio" name="RotateFeq" value="yearly" checked> Yearly <br/>
+
+	<!--<a class="btn btn-primary btn-small" data-json="{}" onclick="setMailConfig(this);" id="job-mailing">Mailing</a>
+	<a class="btn btn-primary btn-small" data-json="{}" onclick="setHookConfig(this);">Hooks</a>-->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -107,6 +107,28 @@ exports.runjob = function(_id, callback) {
 	});
 };
 
+exports.write_logrotate = function(callback){
+	exports.crontabs( function(tabs){
+		var logrotate_string = "";
+		tabs.forEach(function(tab){
+			if(!tab.stopped) {
+				let log_file = path.join(exports.log_folder, tab._id + ".log");
+				logrotate_string += log_file + ' {\n';
+				logrotate_string += '  hourly\n';
+				logrotate_string += '  rotate 10\n';
+				logrotate_string += '  compress\n';
+				logrotate_string += '}\n';
+			}
+		});
+
+		var fileName = "logrotate_auto.conf"
+		fs.writeFile(path.join(__dirname, fileName), logrotate_string, function(err) {
+			if (err) return callback(err);
+			callback();
+		});
+	});
+};
+
 // Set actual crontab file from the db
 exports.set_crontab = function(env_vars, callback){
 	exports.crontabs( function(tabs){

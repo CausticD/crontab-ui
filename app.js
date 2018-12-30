@@ -110,6 +110,10 @@ app.post(routes.delete_log, function(req, res) {
 
 // set crontab. Needs env_vars to be passed
 app.get(routes.crontab, function(req, res, next) {
+	crontab.write_logrotate(function(err) {
+		if (err) next(err);
+	});
+
 	crontab.set_crontab(req.query.env_vars, function(err) {
 		if (err) next(err);
 		else res.end();

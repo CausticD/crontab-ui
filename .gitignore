@@ -1,4 +1,7 @@
 *.swp
+*.state
+*.conf
 node_modules
 crontabs/*.db
 crontabs/logs/*.log
+crontabs/logs/*.gz

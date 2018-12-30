@@ -69,7 +69,6 @@ function runJob(_id){
 		$.post(routes.run, {_id: _id}, function(){
 			location.reload();
 		});
-		
 	});
 }
 
@@ -113,9 +112,9 @@ function editJob(_id){
 			$("#job-month").val(components[3]);
 			$("#job-week").val(components[4]);
 		}
-		if (job.mailing) {
-			$("#job-mailing").attr("data-json", JSON.stringify(job.mailing));
-		}
+		//if (job.mailing) {
+		//	$("#job-mailing").attr("data-json", JSON.stringify(job.mailing));
+		//}
 		schedule = job.schedule;
 		job_command = job.command;
 		if (job.logging_stdout && job.logging_stdout != "false")
@@ -132,10 +131,10 @@ function editJob(_id){
 			schedule = "* * * * *";
 		}
 		let name = $("#job-name").val();
-		let mailing = JSON.parse($("#job-mailing").attr("data-json"));
+		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
 		let logging_stdout = $("#job-logging-stdout").prop("checked");
 		let logging_stderr = $("#job-logging-stderr").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: mailing}, function(){
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: ""}, function(){
 			location.reload();
 		});
 	});
@@ -153,7 +152,7 @@ function newJob(){
 	$("#job").modal("show");
 	$("#job-name").val("");
 	$("#job-command").val("");
-	$("#job-mailing").attr("data-json", "{}");
+	//$("#job-mailing").attr("data-json", "{}");
 	job_string();
 	$("#job-save").unbind("click"); // remove existing events attached to this
 	$("#job-save").click(function(){
@@ -162,10 +161,10 @@ function newJob(){
 			schedule = "* * * * *";
 		}
 		let name = $("#job-name").val();
-		let mailing = JSON.parse($("#job-mailing").attr("data-json"));
+		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
 		let logging_stdout = $("#job-logging-stdout").prop("checked");
 		let logging_stderr = $("#job-logging-stderr").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: mailing}, function(){
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: ""}, function(){
 			location.reload();
 		});
 	});
