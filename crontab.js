@@ -6,6 +6,7 @@ var path = require("path");
 var base_path = __dirname + '/crontabs/';
 var db_file = base_path + 'crontab.db';
 var env_file = base_path + 'env.db';
+var logrotate_path = __dirname + '/logrotate/';
 
 var m_prefix = ''
 var m_extension = ''
@@ -121,8 +122,8 @@ exports.write_logrotate = function(callback){
 			}
 		});
 
-		var fileName = "logrotate_auto.conf"
-		fs.writeFile(path.join(__dirname, fileName), logrotate_string, function(err) {
+		var fileName = "logrotate.conf"
+		fs.writeFile(path.join(logrotate_path, fileName), logrotate_string, function(err) {
 			if (err) return callback(err);
 			callback();
 		});
