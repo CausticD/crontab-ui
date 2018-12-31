@@ -29,8 +29,11 @@ var cron_parser = require("cron-parser");
 
 exports.log_folder = base_path + 'logs';
 
-crontab = function(name, command, schedule, stopped, logging_stdout, logging_stderr, mailing){
+crontab = function(name, command, schedule, stopped, logging_stdout, logging_stderr, mailing, options){
 	var data = {};
+
+	console.log("Options: " + JSON.stringify(options));
+
 	data.name = name;
 	data.command = command;
 	data.schedule = schedule;
@@ -43,6 +46,7 @@ crontab = function(name, command, schedule, stopped, logging_stdout, logging_std
 	if (!mailing)
 		mailing = {};
 	data.mailing = mailing;
+	data.options = options;
 	return data;
 };
 
@@ -51,14 +55,14 @@ exports.init = function(prefix, extension){
 	m_extension = extension;
 };
 
-exports.create_new = function(name, command, schedule, logging_stdout, logging_stderr, mailing){
-	var tab = crontab(name, command, schedule, false, logging_stdout, logging_stderr, mailing);
+exports.create_new = function(name, command, schedule, logging_stdout, logging_stderr, mailing, options){
+	var tab = crontab(name, command, schedule, false, logging_stdout, logging_stderr, mailing, options);
 	tab.created = new Date().valueOf();
 	db.insert(tab);
 };
 
 exports.update = function(data){
-	db.update({_id: data._id}, crontab(data.name, data.command, data.schedule, null, data.logging_stdout, data.logging_stderr, data.mailing));
+	db.update({_id: data._id}, crontab(data.name, data.command, data.schedule, null, data.logging_stdout, data.logging_stderr, data.mailing, data.options));
 };
 
 exports.status = function(_id, stopped){
@@ -112,12 +116,13 @@ exports.write_logrotate = function(callback){
 	exports.crontabs( function(tabs){
 		var logrotate_string = "";
 		tabs.forEach(function(tab){
-			if(!tab.stopped) {
+			if(tab.options && tab.options.rotate) {
 				let log_file = path.join(exports.log_folder, tab._id + ".log");
 				logrotate_string += log_file + ' {\n';
-				logrotate_string += '  hourly\n';
-				logrotate_string += '  rotate 10\n';
-				logrotate_string += '  compress\n';
+				logrotate_string += '  ' + tab.options.rotfreq + '\n';
+				logrotate_string += '  rotate ' + tab.options.rotnumber + '\n';
+				if(tab.options.compress)
+					logrotate_string += '  compress\n';
 				logrotate_string += '}\n';
 			}
 		});

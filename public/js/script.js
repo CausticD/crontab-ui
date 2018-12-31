@@ -93,6 +93,62 @@ function getCrontab(){
 	});
 }
 
+function setJobOptions(options){
+	$("#job-logging-stdout").prop("checked", false);
+	$("#job-logging-stderr").prop("checked", false);
+	$("#job-logging-rotate").prop("checked", false);
+	$("#job-logging-rotate-compress").prop("checked", false);
+	$("#job-logging-rotate-delaycompress").prop("checked", false);
+	$("#job-logging-rotate-count").prop("value", 0);
+
+	$("#rot-hourly").prop("checked", false)
+	$("#rot-daily").prop("checked", false)
+	$("#rot-weekly").prop("checked", false)
+	$("#rot-monthly").prop("checked", false)
+	$("#rot-yearly").prop("checked", false)
+
+	if (options) {
+		if (options.stdout == 'true')
+			$("#job-logging-stdout").prop("checked", true);
+		if (options.stderr == 'true')
+			$("#job-logging-stderr").prop("checked", true);
+		if (options.rotate == 'true') {
+			$("#job-logging-rotate").prop("checked", true);
+			if (options.compress == 'true')
+			{
+				$("#job-logging-rotate-compress").prop("checked", true);
+				if (options.delaycompress = 'true')
+					$("#job-logging-rotate-delaycompress").prop("checked", true);
+			}
+			if (options.rotnumber)
+				$("#job-logging-rotate-count").prop("value", options.rotnumber);
+
+			if (options.rotfreq == 'hourly')
+				$("#rot-hourly").prop("checked", true).click();
+			else if (options.rotfreq == 'daily')
+				$("#rot-daily").prop("checked", true).click();
+			else if (options.rotfreq == 'weekly')
+				$("#rot-weekly").prop("checked", true).click();
+			else if (options.rotfreq == 'monthly')
+				$("#rot-monthly").prop("checked", true).click();
+			else if (options.rotfreq == 'yearly')
+				$("#rot-yearly").prop("checked", true).click();
+		}
+	}
+}
+
+function getJobOptions(){
+	let options = {};
+	options.stdout = $("#job-logging-stdout").prop("checked");;
+	options.stderr = $("#job-logging-stderr").prop("checked");;
+	options.rotate = $("#job-logging-rotate").prop("checked");
+	options.compress = $("#job-logging-rotate-compress").prop("checked");
+	options.delaycompress = $("#job-logging-rotate-delaycompress").prop("checked");
+	options.rotnumber = $("#job-logging-rotate-count").val();
+	options.rotfreq = $('input[name=RotateFeq]:checked').val();
+	return options;
+}
+
 function editJob(_id){
 	var job = null;
 	crontabs.forEach(function(crontab){
@@ -117,10 +173,8 @@ function editJob(_id){
 		//}
 		schedule = job.schedule;
 		job_command = job.command;
-		if (job.logging_stdout && job.logging_stdout != "false")
-			$("#job-logging-stdout").prop("checked", true);
-		if (job.logging_stderr && job.logging_stderr != "false")
-			$("#job-logging-stderr").prop("checked", true);
+		console.log(job.options);
+		setJobOptions(job.options);
 		job_string();
 	}
 
@@ -134,7 +188,8 @@ function editJob(_id){
 		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
 		let logging_stdout = $("#job-logging-stdout").prop("checked");
 		let logging_stderr = $("#job-logging-stderr").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: ""}, function(){
+		let options = getJobOptions();
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: "", options: options}, function(){
 			location.reload();
 		});
 	});
@@ -164,7 +219,8 @@ function newJob(){
 		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
 		let logging_stdout = $("#job-logging-stdout").prop("checked");
 		let logging_stderr = $("#job-logging-stderr").prop("checked");
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: ""}, function(){
+		let options = getJobOptions();
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: "", options: options}, function(){
 			location.reload();
 		});
 	});
