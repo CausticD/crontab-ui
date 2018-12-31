@@ -186,10 +186,8 @@ function editJob(_id){
 		}
 		let name = $("#job-name").val();
 		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
-		let logging_stdout = $("#job-logging-stdout").prop("checked");
-		let logging_stderr = $("#job-logging-stderr").prop("checked");
 		let options = getJobOptions();
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: "", options: options}, function(){
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: _id, mailing: "", options: options}, function(){
 			location.reload();
 		});
 	});
@@ -217,10 +215,8 @@ function newJob(){
 		}
 		let name = $("#job-name").val();
 		//let mailing = JSON.parse($("#job-mailing").attr("data-json"));
-		let logging_stdout = $("#job-logging-stdout").prop("checked");
-		let logging_stderr = $("#job-logging-stderr").prop("checked");
 		let options = getJobOptions();
-		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, logging_stdout: logging_stdout, logging_stderr: logging_stderr, mailing: "", options: options}, function(){
+		$.post(routes.save, {name: name, command: job_command , schedule: schedule, _id: -1, mailing: "", options: options}, function(){
 			location.reload();
 		});
 	});
