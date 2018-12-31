@@ -114,7 +114,7 @@ exports.write_logrotate = function(callback){
 	exports.crontabs( function(tabs){
 		var logrotate_string = "";
 		tabs.forEach(function(tab){
-			if(tab.options && tab.options.rotate) {
+			if(!tab.stopeed && tab.options && tab.options.rotate) {
 				let log_file = path.join(exports.log_folder, tab._id + ".log");
 				logrotate_string += log_file + ' {\n';
 				logrotate_string += '  ' + tab.options.rotfreq + '\n';
@@ -136,6 +136,7 @@ exports.write_logrotate = function(callback){
 // Set actual crontab file from the db
 exports.set_crontab = function(env_vars, callback){
 	exports.crontabs( function(tabs){
+		var logrotate_used = false;
 		var crontab_string = "";
 		if (env_vars) {
 			crontab_string = env_vars + "\n";
@@ -176,6 +177,11 @@ exports.set_crontab = function(env_vars, callback){
 					} else {
 						crontab_string += tab.command;
 					}
+
+					console.log(tab.options);
+
+					if (tab.options.rotate == 'true')
+						logrotate_used = true;
 				}
 
 				//if (tab.mailing && JSON.stringify(tab.mailing) != "{}"){
@@ -185,6 +191,11 @@ exports.set_crontab = function(env_vars, callback){
 				crontab_string += "\n";
 			}
 		});
+
+		console.log('Used: ' + logrotate_used);
+
+		if (logrotate_used)
+			crontab_string += "@hourly logrotate -v --state /usr/lib/node_modules/crontab-ui/logrotate/logrotate.state /usr/lib/node_modules/crontab-ui/logrotate/logrotatate.conf > /usr/lib/node_modules/crontab-ui/logrotate/logrotate.log 2>&1\n";
 
 		fs.writeFile(env_file, env_vars, function(err) {
 			if (err) callback(err);

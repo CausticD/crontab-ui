@@ -117,7 +117,7 @@ function setJobOptions(options){
 			if (options.compress == 'true')
 			{
 				$("#job-logging-rotate-compress").prop("checked", true);
-				if (options.delaycompress = 'true')
+				if (options.delaycompress == 'true')
 					$("#job-logging-rotate-delaycompress").prop("checked", true);
 			}
 			if (options.rotnumber)

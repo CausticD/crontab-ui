@@ -5,4 +5,5 @@ crontabs/logs/*.log
 crontabs/logs/*.gz
 logrotate/*.state
 logrotate/*.conf
+logrotate/*.log
 
