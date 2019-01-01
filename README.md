@@ -7,9 +7,16 @@ Disclaimer:
 
 I am no JavaScript / NodeJS developer. I had a need for something like this and thought I would see if I could fix some issues with alseambusher's original. Just playing around, making changes that suit me and learning whilst at it!
 
+Features:
+- NEW: Log Rotation. This integrates the 'logrotate' command with these features:
+    - Additions to the job UI to switch on per job log rotation.
+    - Control frequency, compression and log count.
+    - If any jobs use logrotate, then an extra job is (behind the scenes) added to call logrotate hourly. (Not shown in the UI.)
+    - Output from logrotate is output to a log, but not appended. No UI access to this file.
+
 My Changes:
 
-- When autosave is enabled, don't show the Save and Load buttons in the UI. When this mode is on, it seems a little pointless and rather confusing to show them.
+- When autosave is enabled, don't show the Save and Load buttons in the UI. When this mode is on, it seems a little pointless and rather confusing to show them. (THIS HAS ISSUES. I am rethinking this change.)
 
 - Tidy up the name of the backups.
     - The files were (in my case) called 'backup Fri Dec 21 2018 13:00:53 GMT+0000 (Greenwich Mean Time).db'
