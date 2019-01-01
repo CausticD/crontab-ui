@@ -14,6 +14,11 @@ Features:
     - If any jobs use logrotate, then an extra job is (behind the scenes) added to call logrotate hourly. (Not shown in the UI.)
     - Output from logrotate is output to a log, but not appended. No UI access to this file.
 
+- IMPROVED: More control over logging.
+    - You can now choose what output from the command gets logged, either none, stdout, stderr or both.
+    - All output from a job goes to one log file and is appended.
+    - Each line of that file starts with a timestamp.
+
 My Changes:
 
 - When autosave is enabled, don't show the Save and Load buttons in the UI. When this mode is on, it seems a little pointless and rather confusing to show them. (THIS HAS ISSUES. I am rethinking this change.)
@@ -24,8 +29,6 @@ My Changes:
     - The UI removes the 'backup' and '.db' parts to just show '2018-05-16 09:50:02' etc.
     - It still shows the newest on top, but it doesn't have to sort them.
     
-- You can now choose what output from the command gets logged, either none, stdout, stderr or both. This goes to one log file and is appended. Each line of that file starts with a timestamp.
-
 - Added button to delete log file of a job. Handy since they can get huge now they can capture all output.
 
 - Changed GitHub link in UI to be this fork.
