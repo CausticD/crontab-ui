@@ -173,7 +173,6 @@ function editJob(_id){
 		//}
 		schedule = job.schedule;
 		job_command = job.command;
-		console.log(job.options);
 		setJobOptions(job.options);
 		job_string();
 	}

@@ -31,9 +31,6 @@ exports.log_folder = base_path + 'logs';
 
 crontab = function(name, command, schedule, stopped, mailing, options){
 	var data = {};
-
-	console.log("Options: " + JSON.stringify(options));
-
 	data.name = name;
 	data.command = command;
 	data.schedule = schedule;
@@ -143,27 +140,7 @@ exports.set_crontab = function(env_vars, callback){
 		}
 		tabs.forEach(function(tab){
 			if(!tab.stopped) {
-				//let stderr = path.join(cronPath, tab._id + ".stderr");
-				//let stdout = path.join(cronPath, tab._id + ".stdout");
 				let log_file = path.join(exports.log_folder, tab._id + ".log");
-
-				//if(tab.command[tab.command.length-1] != ";") // add semicolon
-				//	tab.command +=";";
-
-				//crontab_string += tab.schedule + " ({ " + tab.command + " } | tee " + stdout + ") 3>&1 1>&2 2>&3 | tee " + stderr;
-
-				//if (tab.logging && tab.logging == "true") {
-				//	crontab_string += "; if test -f " + stderr +
-				//	"; then date >> " + log_file +
-				//	"; cat " + stderr + " >> " + log_file +
-				//	"; fi";
-				//}
-
-				//if (tab.hook) {
-				//	crontab_string += "; if test -f " + stdout +
-				//	"; then " + tab.hook + " < " + stdout +
-				//	"; fi";
-				//}
 
 				crontab_string += tab.schedule + " ";
 
@@ -178,8 +155,6 @@ exports.set_crontab = function(env_vars, callback){
 						crontab_string += tab.command;
 					}
 
-					console.log(tab.options);
-
 					if (tab.options.rotate == 'true')
 						logrotate_used = true;
 				}
@@ -192,10 +167,8 @@ exports.set_crontab = function(env_vars, callback){
 			}
 		});
 
-		console.log('Used: ' + logrotate_used);
-
 		if (logrotate_used)
-			crontab_string += "@hourly logrotate -v --state /usr/lib/node_modules/crontab-ui/logrotate/logrotate.state /usr/lib/node_modules/crontab-ui/logrotate/logrotatate.conf > /usr/lib/node_modules/crontab-ui/logrotate/logrotate.log 2>&1\n";
+			crontab_string += "@hourly logrotate -v --state /usr/lib/node_modules/crontab-ui/logrotate/logrotate.state /usr/lib/node_modules/crontab-ui/logrotate/logrotate.conf > /usr/lib/node_modules/crontab-ui/logrotate/logrotate.log 2>&1\n";
 
 		fs.writeFile(env_file, env_vars, function(err) {
 			if (err) callback(err);
