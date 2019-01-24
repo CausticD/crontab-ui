@@ -37,6 +37,18 @@ My Breaking Changes:
 
 - I have broken/removed the ability to email logs! I don't have a way of testing this, so I have commented it out.
 
+Usage:
+
+- To start the web server:
+        'HOST=0.0.0.0 PORT=9000 npm start'
+        
+Uses:
+
+Basically, anytime you want to use Cron but would rather have a UI to control things, see logs etc. 
+
+- Adding an auto updater to Pi-Hole (https://pi-hole.net/) since it doesn't have one by default.
+- Automating parts of a docker setup.
+
 Setup / Troubleshooting:
 
 - The first issue I had was that the UI seemed fine until I tried saving and then it gave me a error. This was caused by crontab not being installed! Run 'crontab -l' (this is the command that the UI uses internally). If this gives an error, tackle that first. If it spits out nothing, that is okay as it might just mean you don't have any cron jobs.
