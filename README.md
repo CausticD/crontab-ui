@@ -55,6 +55,36 @@ Setup / Troubleshooting:
 
 - If a command that normally works isn't, very often it is done to differences in path. You can set this manually, or, use the 'whereis' command to get the full path and then use that. Try setting 'PATH=/sbin:/bin:/usr/sbin:/usr/bin' which should cover most and then whereis for anything special.
 
-- To test everything is set up, try adding a temporary job of just 'logrotate'. If that gives an error then the log rotation options will not work and it probably means your PATH isn't set correctly. See above for suggestion.
+- To test everything is set up, try adding a temporary job of just 'logrotate'. If that gives an error then the log rotation options will not work and it probably means your PATH isn't set correctly. See above for suggestion. To test the very basics, 'pwd' and 'whoami' can be useful.
 
 - There are plenty of other reasons a job can work manually, but not as part of cron. Try setting 'SHELL=/bin/bash' to see if this fixes it.
+
+Gotchas:
+
+- Running a task through the Web UI doesn't output to the log, but to the 'npm start'.
+
+Install node on Pi-Hole:
+
+1) Go to: https://nodejs.org/en/download/
+2) Select LTS and copy the link to the Armv7 Linux Binary. eg. https://nodejs.org/dist/v12.16.0/node-v12.16.0-linux-armv7l.tar.xz
+3) On the Pi, type 'wget https://nodejs.org/dist/v12.16.0/node-v12.16.0-linux-armv7l.tar.xz'
+4) Follow instructions from here: https://github.com/nodejs/help/wiki/Installation
+	A) 'sudo mkdir -p /usr/local/lib/nodejs'
+	B) 'sudo tar -xJvf node-v12.16.0-linux-armv7l.tar.xz -C /usr/local/lib/nodejs'
+	C) 'nano ~/.profile'
+	D) Add to the bottom
+		# add NodeJS
+		PATH="/usr/local/lib/nodejs/node-v12.16.0-linux-armv7l/bin:$PATH"
+	E) Reload to get changes: '. ~/.profile'
+	F) Test using:
+		'node -v'
+		'npm version'
+		'npx -v'
+        
+Install this repo:
+
+1) Pull my repo: 'git clone https://github.com/CausticD/crontab-ui.git'
+2) Change to the dir you just pulled into: 'cd crontab-ui'
+3) Install: 'npm install'
+4) Run with: 'HOST=0.0.0.0 PORT=9000 npm start'
+
