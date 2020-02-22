@@ -88,3 +88,7 @@ Install this repo:
 3) Install: 'npm install'
 4) Run with: 'HOST=0.0.0.0 PORT=9000 npm start'
 
+Adding PM2 into the mix to allow easy running of a background task:
+
+1) Install PM2 with 'npm install pm2 -g'
+2) Run using 'pm2 start', there is a config file for it to find that has the env variables.
