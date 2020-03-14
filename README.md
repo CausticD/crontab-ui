@@ -90,7 +90,9 @@ Install this repo:
 Adding PM2 into the mix to allow easy running of a background task:
 
 1) Install PM2 with 'npm install pm2 -g'
-2) Run using 'pm2 start', there is a config file for it to find that has the env variables.
+2) Log into pm2: https://id.keymetrics.io/api/oauth/login
+3) Click 'Connect' and follow instructions along the lines of: pm2 link <privatekey> <publickey>
+4) Run using 'pm2 start', there is a config file for it to find that has the env variables.
 
 If running the first command gives you some permissions based issues, try:
 
