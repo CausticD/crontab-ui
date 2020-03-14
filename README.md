@@ -91,3 +91,9 @@ Adding PM2 into the mix to allow easy running of a background task:
 
 1) Install PM2 with 'npm install pm2 -g'
 2) Run using 'pm2 start', there is a config file for it to find that has the env variables.
+
+If running the first command gives you some permissions based issues, try:
+
+1) cd /usr/local/lib/nodejs/
+2) sudo chmod 777 node-v12.16.1-linux-armv7l/ -R
+3) Try again!
