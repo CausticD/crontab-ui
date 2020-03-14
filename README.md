@@ -68,15 +68,14 @@ Install node on Pi-Hole:
 1) Go to: https://nodejs.org/en/download/
 2) Select LTS and copy the link to the Armv7 Linux Binary. eg. https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-armv7l.tar.xz
 3) On the Pi, type 'wget https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-armv7l.tar.xz'
-4) Follow instructions from here: https://github.com/nodejs/help/wiki/Installation
-4A) 'sudo mkdir -p /usr/local/lib/nodejs'
-4B) 'sudo tar -xJvf node-v12.16.1-linux-armv7l.tar.xz -C /usr/local/lib/nodejs'
-4C) 'nano ~/.profile'
-4D) Add to the bottom
-	# add NodeJS
+4) Follow instructions from here: https://github.com/nodejs/help/wiki/Installation 
+5) 'sudo mkdir -p /usr/local/lib/nodejs'
+6) 'sudo tar -xJvf node-v12.16.1-linux-armv7l.tar.xz -C /usr/local/lib/nodejs'
+7) 'nano ~/.profile'
+8) Add to the bottom
 	PATH="/usr/local/lib/nodejs/node-v12.16.1-linux-armv7l/bin:$PATH"
-4E) Reload to get changes: '. ~/.profile'
-4F) Test using:
+9) Reload to get changes: '. ~/.profile'
+10) Test using:
 	'node -v' (you should get v12.16.1)
 	'npm version' (you should get a dozen or so lines of JSON)
 	'npx -v' (you should get 6.13.4)
